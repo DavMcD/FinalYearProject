@@ -93,6 +93,7 @@ public:
 		
 		for (int i = 0; i < 20; i++)
 		{
+			srand(time(NULL));
 			randomizeVariables();
 			bmp.create(BMP_SIZE, BMP_SIZE);
 			float x = 0, y = 0; HDC dc = bmp.getDC();
@@ -144,7 +145,6 @@ private:
 
 	void randomizeVariables()
 	{
-		srand(time(NULL));
 		LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 20) - 10) / 100.0f);
 		RightLeafCurve = CONST_RightLeafCurve + (((rand() % 20) - 10) / 100.0f);
 		LeftLeafSize = CONST_LeftLeafSize + (((rand() % 20) - 10) / 100.0f);
