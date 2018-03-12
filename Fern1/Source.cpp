@@ -88,36 +88,60 @@ private:
 };
 class fern {
 public:
-	void draw() {
-		bmp.create(BMP_SIZE, BMP_SIZE);
-		float x = 0, y = 0; HDC dc = bmp.getDC();
-		int hs = BMP_SIZE >> 1;
-		for (int f = 0; f < ITERATIONS; f++) {
-			SetPixel(dc, hs + static_cast<int>(x * 55.f),
-				BMP_SIZE - 15 - static_cast<int>(y * 55.f),
-				RGB(static_cast<int>(rnd() * 80.f) + 20,
-					static_cast<int>(rnd() * 128.f) + 128,
-					static_cast<int>(rnd() * 80.f) + 30));
-			getXY(x, y);
+	void draw() 
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			bmp.create(BMP_SIZE, BMP_SIZE);
+			float x = 0, y = 0; HDC dc = bmp.getDC();
+			int hs = BMP_SIZE >> 1;
+			for (int f = 0; f < ITERATIONS; f++) {
+				SetPixel(dc, hs + static_cast<int>(x * 55.f),
+					BMP_SIZE - 15 - static_cast<int>(y * 55.f),
+					RGB(static_cast<int>(rnd() * 80.f) + 20,
+						static_cast<int>(rnd() * 128.f) + 128,
+						static_cast<int>(rnd() * 80.f) + 30));
+				getXY(x, y);
+			}
+			bmp.saveBitmap("./bf" + std::to_string(i) + ".bmp");
 		}
-		bmp.saveBitmap("./bf.bmp");
 	}
 private:
-	void getXY(float& x, float& y) {
+	
+	void getXY(float& x, float& y) 
+	{
+		srand(time(NULL));
+		float LeftLeafCurve = 0.2f + (((rand() % 20) - 10) / 100.0f);
+		float RightLeafCurve = .15f + (((rand() % 20) - 10) / 100.0f);
+		float LeftLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
+		float RightLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
+		float LeftLeafThinness = .23f + (((rand() % 20) - 10) / 100.0f);
+		float RightLeafThickness = .28f + (((rand() % 20) - 10) / 100.0f);
+		float LeftAngleWithStem = .22f;
+		float RightAngleWithStem = .24f;
+		float LeftLeafSpawnPosition = 1.6f;
+		float RightLeafSpawnPosition = .44f;
+		float Spikiness = .85f;
+		float Curviness = .04f;
+		float Gravity = .04f;
+		float Aggressiveness = .85f;
+		float Size = 1.6f;
+
+
 		float g, xl, yl;
 		g = rnd();
 		if (g < .01f) { xl = 0; yl = .16f * y; }
 		else if (g < .07f) {
-			xl = .2f * x - .26f * y;
-			yl = .23f * x + .22f * y + 1.6f;
+			xl = LeftLeafCurve * x - LeftLeafSize * y;
+			yl = LeftLeafThinness * x + LeftAngleWithStem * y + LeftLeafSpawnPosition;
 		}
 		else if (g < .14f) {
-			xl = -.15f * x + .28f * y;
-			yl = .26f * x + .24f * y + .44f;
+			xl = -RightLeafCurve * x + RightLeafThickness* y;
+			yl = RightLeafSize * x + RightAngleWithStem * y + RightLeafSpawnPosition;
 		}
 		else {
-			xl = .85f * x + .04f * y;
-			yl = -.04f * x + .85f * y + 1.6f;
+			xl = Spikiness * x + Curviness * y;
+			yl = -Gravity * x + Aggressiveness * y + Size;
 		}
 		x = xl; y = yl;
 	}
@@ -129,6 +153,5 @@ private:
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned>(time(0)));
 	fern f; f.draw(); 
-	system("PAUSE");
 	return 0;
 }

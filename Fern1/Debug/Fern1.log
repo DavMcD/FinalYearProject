@@ -1,3 +1,4 @@
 ﻿  Source.cpp
-  Fern1.vcxproj -> c:\users\gameuser\documents\visual studio 2017\Projects\Fern1\Debug\Fern1.exe
-  Fern1.vcxproj -> c:\users\gameuser\documents\visual studio 2017\Projects\Fern1\Debug\Fern1.pdb (Partial PDB)
+c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(113): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Fern1.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Fern1\Debug\Fern1.exe
+  Fern1.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Fern1\Debug\Fern1.pdb (Partial PDB)
