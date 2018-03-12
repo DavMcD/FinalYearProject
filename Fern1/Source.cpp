@@ -90,8 +90,10 @@ class fern {
 public:
 	void draw() 
 	{
-		for (int i = 0; i < 6; i++)
+		
+		for (int i = 0; i < 20; i++)
 		{
+			randomizeVariables();
 			bmp.create(BMP_SIZE, BMP_SIZE);
 			float x = 0, y = 0; HDC dc = bmp.getDC();
 			int hs = BMP_SIZE >> 1;
@@ -107,27 +109,62 @@ public:
 		}
 	}
 private:
-	
-	void getXY(float& x, float& y) 
+
+	const float CONST_LeftLeafCurve = 0.2f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_RightLeafCurve = .15f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_LeftLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_RightLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_LeftLeafThinness = .23f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_RightLeafThickness = .28f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_LeftAngleWithStem = .22f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_RightAngleWithStem = .24f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_LeftLeafSpawnPosition = 1.6f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_RightLeafSpawnPosition = .44f + (((rand() % 20) - 10) / 100.0f);
+	const float CONST_Spikiness = .85f + (((rand() % 50) - 25) / 100.0f);
+	const float CONST_Curviness = .04f + (((rand() % 10) - 5) / 100.0f);
+	const float CONST_Gravity = .04f + (((rand() % 10) - 5) / 100.0f);
+	const float CONST_Aggressiveness = .85f;
+	const float CONST_Size = 1.6f;
+
+	float LeftLeafCurve;
+	float RightLeafCurve;
+	float LeftLeafSize;
+	float RightLeafSize;
+	float LeftLeafThinness;
+	float RightLeafThickness;
+	float LeftAngleWithStem;
+	float RightAngleWithStem;
+	float LeftLeafSpawnPosition;
+	float RightLeafSpawnPosition;
+	float Spikiness;
+	float Curviness;
+	float Gravity;
+	float Aggressiveness;
+	float Size;
+
+	void randomizeVariables()
 	{
 		srand(time(NULL));
-		float LeftLeafCurve = 0.2f + (((rand() % 20) - 10) / 100.0f);
-		float RightLeafCurve = .15f + (((rand() % 20) - 10) / 100.0f);
-		float LeftLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
-		float RightLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
-		float LeftLeafThinness = .23f + (((rand() % 20) - 10) / 100.0f);
-		float RightLeafThickness = .28f + (((rand() % 20) - 10) / 100.0f);
-		float LeftAngleWithStem = .22f;
-		float RightAngleWithStem = .24f;
-		float LeftLeafSpawnPosition = 1.6f;
-		float RightLeafSpawnPosition = .44f;
-		float Spikiness = .85f;
-		float Curviness = .04f;
-		float Gravity = .04f;
-		float Aggressiveness = .85f;
-		float Size = 1.6f;
+		LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 20) - 10) / 100.0f);
+		RightLeafCurve = CONST_RightLeafCurve + (((rand() % 20) - 10) / 100.0f);
+		LeftLeafSize = CONST_LeftLeafSize + (((rand() % 20) - 10) / 100.0f);
+		RightLeafSize = CONST_RightLeafSize + (((rand() % 20) - 10) / 100.0f);
+		LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 20) - 10) / 100.0f);
+		RightLeafThickness = CONST_RightLeafThickness + (((rand() % 20) - 10) / 100.0f);
+		LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 20) - 10) / 100.0f);
+		RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 20) - 10) / 100.0f);
+		LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 20) - 10) / 100.0f);
+		RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 20) - 10) / 100.0f);
+		Spikiness = CONST_Spikiness + (((rand() % 50) - 25) / 100.0f);
+		Curviness = CONST_Curviness + (((rand() % 10) - 5) / 100.0f);
+		Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
+		Aggressiveness = CONST_Aggressiveness;
+		Size = CONST_Size;
+	}
 
 
+	void getXY(float& x, float& y) 
+	{
 		float g, xl, yl;
 		g = rnd();
 		if (g < .01f) { xl = 0; yl = .16f * y; }
