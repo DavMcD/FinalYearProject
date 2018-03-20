@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <ctime>
 #include <string>
+#include <fstream>
 
 const int BMP_SIZE = 600, ITERATIONS = static_cast<int>(15e5);
 
@@ -90,7 +91,7 @@ class fern {
 public:
 	void draw() 
 	{
-		
+		std::ofstream outfile("FernData.txt");
 		for (int i = 0; i < 20; i++)
 		{
 			srand(time(NULL));
@@ -107,23 +108,27 @@ public:
 				getXY(x, y);
 			}
 			bmp.saveBitmap("./bf" + std::to_string(i) + ".bmp");
+			outfile << "Fern " + std::to_string(i) + ": ";
+			outfile << LeftLeafCurve << ", " << RightLeafCurve << ", " << LeftLeafSize << ", " << RightLeafSize << ", " << LeftLeafThinness << ", " <<
+				RightLeafThickness << ", " << LeftAngleWithStem << ", " << RightAngleWithStem << ", " << LeftLeafSpawnPosition << ", " <<
+				RightLeafSpawnPosition << ", " << Spikiness << ", " << Curviness << ", " << Gravity << ", " << Aggressiveness << ", " << Size << std::endl;
 		}
 	}
 private:
 
-	const float CONST_LeftLeafCurve = 0.2f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_RightLeafCurve = .15f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_LeftLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_RightLeafSize = .26f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_LeftLeafThinness = .23f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_RightLeafThickness = .28f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_LeftAngleWithStem = .22f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_RightAngleWithStem = .24f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_LeftLeafSpawnPosition = 1.6f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_RightLeafSpawnPosition = .44f + (((rand() % 20) - 10) / 100.0f);
-	const float CONST_Spikiness = .85f + (((rand() % 50) - 25) / 100.0f);
-	const float CONST_Curviness = .04f + (((rand() % 10) - 5) / 100.0f);
-	const float CONST_Gravity = .04f + (((rand() % 10) - 5) / 100.0f);
+	const float CONST_LeftLeafCurve = 0.2f;
+	const float CONST_RightLeafCurve = .15f;
+	const float CONST_LeftLeafSize = .26f;
+	const float CONST_RightLeafSize = .26f;
+	const float CONST_LeftLeafThinness = .23f;
+	const float CONST_RightLeafThickness = .28f;
+	const float CONST_LeftAngleWithStem = .22f;
+	const float CONST_RightAngleWithStem = .24f;
+	const float CONST_LeftLeafSpawnPosition = 1.6f;
+	const float CONST_RightLeafSpawnPosition = .44f;
+	const float CONST_Spikiness = .85f;
+	const float CONST_Curviness = .04f;
+	const float CONST_Gravity = .04f;
 	const float CONST_Aggressiveness = .85f;
 	const float CONST_Size = 1.6f;
 
