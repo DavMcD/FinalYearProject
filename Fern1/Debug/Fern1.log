@@ -1,4 +1,5 @@
 ﻿  Source.cpp
-c:\users\david\documents\final year project\finalyearproject\fern1\source.cpp(97): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Fern1.vcxproj -> C:\Users\David\Documents\Final Year Project\FinalYearProject\Debug\Fern1.exe
-  Fern1.vcxproj -> C:\Users\David\Documents\Final Year Project\FinalYearProject\Debug\Fern1.pdb (Partial PDB)
+c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(104): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(131): warning C4018: '<': signed/unsigned mismatch
+  Fern1.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Fern1\Debug\Fern1.exe
+  Fern1.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Fern1\Debug\Fern1.pdb (Partial PDB)

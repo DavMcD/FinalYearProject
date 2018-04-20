@@ -2,6 +2,7 @@
 #include <ctime>
 #include <string>
 #include <fstream>
+#include <vector>
 
 const int BMP_SIZE = 600, ITERATIONS = static_cast<int>(15e5);
 
@@ -91,7 +92,13 @@ class fern {
 public:
 	void draw() 
 	{
-		std::ofstream outfile("FernData.txt");
+		std::ofstream fernDataFile("FernData.txt");
+
+		for (int i = 0; i < 20; i++)
+		{
+			fernDataFile << "0 ";
+		}
+		fernDataFile << std::endl;
 		for (int i = 0; i < 20; i++)
 		{
 			srand(time(NULL));
@@ -108,12 +115,42 @@ public:
 				getXY(x, y);
 			}
 			bmp.saveBitmap("./bf" + std::to_string(i) + ".bmp");
-			outfile << "Fern " + std::to_string(i) + ": ";
-			outfile << LeftLeafCurve << ", " << RightLeafCurve << ", " << LeftLeafSize << ", " << RightLeafSize << ", " << LeftLeafThinness << ", " <<
-				RightLeafThickness << ", " << LeftAngleWithStem << ", " << RightAngleWithStem << ", " << LeftLeafSpawnPosition << ", " <<
-				RightLeafSpawnPosition << ", " << Spikiness << ", " << Curviness << ", " << Gravity << ", " << Aggressiveness << ", " << Size << std::endl;
+			fernDataFile << LeftLeafCurve << " " << RightLeafCurve << " " << LeftLeafSize << " " << RightLeafSize << " " << LeftLeafThinness << " " <<
+				RightLeafThickness << " " << LeftAngleWithStem << " " << RightAngleWithStem << " " << LeftLeafSpawnPosition << " " <<
+				RightLeafSpawnPosition << " " << Spikiness << " " << Curviness << " " << Gravity << " " << Aggressiveness << " " << Size << " " << std::endl;
 		}
 	}
+
+	void getPreGen()
+	{
+		int count = 0;
+		int varNum = 0;
+		std::vector<bool> selectedFerns(20, 0);
+		std::vector<double> avgValues(15, 0);
+		std::fstream fernDataFile("FernData.txt");
+
+		for (int i = 0; i < selectedFerns.size(); i++)
+		{
+			bool tmp;
+			fernDataFile >> tmp;
+			selectedFerns[i] = tmp;
+			if (tmp == 1)
+			{
+				count++;
+			}
+		}
+		for (int i = 0; i < selectedFerns.size(); i++)
+		{
+			double temp;
+			if (selectedFerns[i])
+			{
+				fernDataFile >> temp;
+			}
+		}
+
+		int rgjioe = 0;
+	}
+
 private:
 
 	const float CONST_LeftLeafCurve = 0.2f;
@@ -148,20 +185,36 @@ private:
 	float Aggressiveness;
 	float Size;
 
+	float AvgLeftLeafCurve = 0;
+	float AvgRightLeafCurve = 0;
+	float AvgLeftLeafSize = 0;
+	float AvgRightLeafSize = 0;
+	float AvgLeftLeafThinness = 0;
+	float AvgRightLeafThickness = 0;
+	float AvgLeftAngleWithStem = 0;
+	float AvgRightAngleWithStem = 0;
+	float AvgLeftLeafSpawnPosition = 0;
+	float AvgRightLeafSpawnPosition = 0;
+	float AvgSpikiness = 0;
+	float AvgCurviness = 0;
+	float AvgGravity = 0;
+	float AvgAggressiveness = 0;
+	float AvgSize = 0;
+
 	void randomizeVariables()
 	{
-		LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 20) - 10) / 100.0f);
-		RightLeafCurve = CONST_RightLeafCurve + (((rand() % 20) - 10) / 100.0f);
-		LeftLeafSize = CONST_LeftLeafSize + (((rand() % 20) - 10) / 100.0f);
-		RightLeafSize = CONST_RightLeafSize + (((rand() % 20) - 10) / 100.0f);
-		LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 20) - 10) / 100.0f);
-		RightLeafThickness = CONST_RightLeafThickness + (((rand() % 20) - 10) / 100.0f);
-		LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 20) - 10) / 100.0f);
-		RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 20) - 10) / 100.0f);
-		LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 20) - 10) / 100.0f);
-		RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 20) - 10) / 100.0f);
-		Spikiness = CONST_Spikiness + (((rand() % 50) - 25) / 100.0f);
-		Curviness = CONST_Curviness + (((rand() % 10) - 5) / 100.0f);
+		LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
+		RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
+		LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
+		RightLeafSize = CONST_RightLeafSize + (((rand() % 24) - 12) / 100.0f);
+		LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 24) - 12) / 100.0f);
+		RightLeafThickness = CONST_RightLeafThickness + (((rand() % 24) - 12) / 100.0f);
+		LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+		RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+		LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+		RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+		Spikiness = CONST_Spikiness + (((rand() % 20) - 10) / 100.0f);
+		Curviness = CONST_Curviness + (((rand() % 20) - 10) / 100.0f);
 		Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
 		Aggressiveness = CONST_Aggressiveness;
 		Size = CONST_Size;
@@ -194,6 +247,8 @@ private:
 };
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned>(time(0)));
-	fern f; f.draw(); 
+	fern f; 
+	f.getPreGen();
+	f.draw(); 
 	return 0;
 }
