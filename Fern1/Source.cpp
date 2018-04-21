@@ -99,6 +99,7 @@ public:
 			fernDataFile << "0 ";
 		}
 		fernDataFile << std::endl;
+
 		for (int i = 0; i < 20; i++)
 		{
 			srand(time(NULL));
@@ -139,16 +140,50 @@ public:
 				count++;
 			}
 		}
+
 		for (int i = 0; i < selectedFerns.size(); i++)
 		{
 			double temp;
 			if (selectedFerns[i])
 			{
-				fernDataFile >> temp;
+				for (int it = 0; it < avgValues.size(); it++)
+				{
+					fernDataFile >> temp;
+					avgValues[it] += temp;
+				}
+			}
+			else
+			{
+				for (int it = 0; it < avgValues.size(); it++)
+				{
+					fernDataFile >> temp;
+				}
 			}
 		}
 
-		int rgjioe = 0;
+		if (count > 0)
+		{
+			for (int i = 0; i < avgValues.size(); i++)
+			{
+				avgValues[i] = avgValues[i] / ((double)count);
+			}
+		}
+
+		AvgLeftLeafCurve = avgValues[0];
+		AvgRightLeafCurve = avgValues[1];
+		AvgLeftLeafSize = avgValues[2];
+		AvgRightLeafSize = avgValues[3];
+		AvgLeftLeafThinness = avgValues[4];
+		AvgRightLeafThickness = avgValues[5];
+		AvgLeftAngleWithStem = avgValues[6];
+		AvgRightAngleWithStem = avgValues[7];
+		AvgLeftLeafSpawnPosition = avgValues[8];
+		AvgRightLeafSpawnPosition = avgValues[9];
+		AvgSpikiness = avgValues[10];
+		AvgCurviness = avgValues[11];
+		AvgGravity = avgValues[12];
+		AvgAggressiveness = avgValues[13];
+		AvgSize = avgValues[14];
 	}
 
 private:
@@ -203,21 +238,42 @@ private:
 
 	void randomizeVariables()
 	{
-		LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
-		RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
-		LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
-		RightLeafSize = CONST_RightLeafSize + (((rand() % 24) - 12) / 100.0f);
-		LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 24) - 12) / 100.0f);
-		RightLeafThickness = CONST_RightLeafThickness + (((rand() % 24) - 12) / 100.0f);
-		LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 24) - 12) / 100.0f);
-		RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 24) - 12) / 100.0f);
-		LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
-		RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
-		Spikiness = CONST_Spikiness + (((rand() % 20) - 10) / 100.0f);
-		Curviness = CONST_Curviness + (((rand() % 20) - 10) / 100.0f);
-		Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
-		Aggressiveness = CONST_Aggressiveness;
-		Size = CONST_Size;
+		if (AvgLeftLeafCurve == 0)
+		{
+			LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
+			RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
+			LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
+			RightLeafSize = CONST_RightLeafSize + (((rand() % 24) - 12) / 100.0f);
+			LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 24) - 12) / 100.0f);
+			RightLeafThickness = CONST_RightLeafThickness + (((rand() % 24) - 12) / 100.0f);
+			LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+			RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+			LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+			RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+			Spikiness = CONST_Spikiness + (((rand() % 20) - 10) / 100.0f);
+			Curviness = CONST_Curviness + (((rand() % 20) - 10) / 100.0f);
+			Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
+			Aggressiveness = CONST_Aggressiveness;
+			Size = CONST_Size;
+		}
+		else
+		{
+			LeftLeafCurve = AvgLeftLeafCurve + (((rand() % 12) - 6) / 100.0f);
+			RightLeafCurve = AvgRightLeafCurve + (((rand() % 12) - 6) / 100.0f);
+			LeftLeafSize = AvgLeftLeafSize + (((rand() % 12) - 6) / 100.0f);
+			RightLeafSize = AvgRightLeafSize + (((rand() % 12) - 6) / 100.0f);
+			LeftLeafThinness = AvgLeftLeafThinness + (((rand() % 12) - 6) / 100.0f);
+			RightLeafThickness = AvgRightLeafThickness + (((rand() % 12) - 6) / 100.0f);
+			LeftAngleWithStem = AvgLeftAngleWithStem + (((rand() % 12) - 6) / 100.0f);
+			RightAngleWithStem = AvgRightAngleWithStem + (((rand() % 12) - 6) / 100.0f);
+			LeftLeafSpawnPosition = AvgLeftLeafSpawnPosition + (((rand() % 12) - 6) / 100.0f);
+			RightLeafSpawnPosition = AvgRightLeafSpawnPosition + (((rand() % 12) - 6) / 100.0f);
+			Spikiness = AvgSpikiness + (((rand() % 10) - 5) / 100.0f);
+			Curviness = AvgCurviness + (((rand() % 10) - 5) / 100.0f);
+			Gravity = AvgGravity + (((rand() % 6) - 3) / 100.0f);
+			Aggressiveness = AvgAggressiveness;
+			Size = AvgSize;
+		}
 	}
 
 
