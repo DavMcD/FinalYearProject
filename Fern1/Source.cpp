@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <iostream>
 
 const int BMP_SIZE = 600, ITERATIONS = static_cast<int>(15e5);
 
@@ -94,44 +95,57 @@ public:
 	{
 		std::ofstream fernDataFile("FernData.txt");
 
+		//this essentially "deselects" the previous generation by resetting the bools that determine which values will be chosen
 		for (int i = 0; i < 20; i++)
 		{
 			fernDataFile << "0 ";
 		}
 		fernDataFile << std::endl;
 
+		//ferns are generated 20 times it give appropriate variation and choice
 		for (int i = 0; i < 20; i++)
 		{
 			srand(time(NULL));
 
-			if (AvgLeftLeafCurve == 0)
+			//this is a progress counter so the user knows the program is running
+			std::cout << std::to_string((i * 5)) << "% Complete" << std::endl;
+
+			//if no images were selected from the previous generation, randomize based on the original barnsely fern
+			if (userGuided == false)
 			{
 				randomizeVariables();
 			}
 			else
 			{
+				//the first image is always the average of all the previously selected images
 				if (i == 0)
 				{
 					getAverageFern();
 				}
+				//the next 5 are based off the average with slight deviations
 				else if (i < 6)
 				{
 					randomizeWeightedVariables(1);
 				}
+				//the next 5 are based off the average with moderate deviations
 				else if (i < 11)
 				{
 					randomizeWeightedVariables(2);
 				}
+				//the next 5 are based off the average with large deviations
 				else if (i < 16)
 				{
 					randomizeWeightedVariables(3);
 				}
+				//the last 4 are completely random (to give the user more choice and to stop the data converging too hard)
 				else
 				{
 					randomizeVariables();
 				}
 			}
 
+			//the following code was found at https://rosettacode.org/wiki/Barnsley_fern
+			//this does the actual generation of the image
 			bmp.create(BMP_SIZE, BMP_SIZE);
 			float x = 0, y = 0; HDC dc = bmp.getDC();
 			int hs = BMP_SIZE >> 1;
@@ -143,32 +157,45 @@ public:
 						static_cast<int>(rnd() * 80.f) + 30));
 				getXY(x, y);
 			}
+
+			//this saves the file to a .bmp
 			bmp.saveBitmap("./bf" + std::to_string(i) + ".bmp");
+
+			//the following writes the data to the txt file, seperating variables by spaces and data sets by lines
 			fernDataFile << LeftLeafCurve << " " << RightLeafCurve << " " << LeftLeafSize << " " << RightLeafSize << " " << LeftLeafThinness << " " <<
 				RightLeafThickness << " " << LeftAngleWithStem << " " << RightAngleWithStem << " " << LeftLeafSpawnPosition << " " <<
 				RightLeafSpawnPosition << " " << Spikiness << " " << Curviness << " " << Gravity << " " << Aggressiveness << " " << Size << " " << std::endl;
 		}
 	}
 
+	//this function reads the data file to see if any ferns of the previous generation have been chosen
 	void getPreGen()
 	{
-		int count = 0;
+		int count = 0; //the number of selected ferns (for getting the average)
 		int varNum = 0;
-		std::vector<bool> selectedFerns(20, 0);
-		std::vector<double> avgValues(15, 0);
-		std::fstream fernDataFile("FernData.txt");
 
+		//vector of bools indicating which of the last 20 have been selected (true means the were selected)
+		std::vector<bool> selectedFerns(20, 0);
+
+		//vector of the values from the previous generation (in case they need to be saved)
+		std::vector<double> avgValues(15, 0);
+		std::fstream fernDataFile("FernData.txt"); //load in the data file
+
+		//runs 20 times (the number of ferns generated currently)
 		for (int i = 0; i < selectedFerns.size(); i++)
 		{
+			//save the first 20 variables into the vector of bools
+			//the first line (these 20 var) are the variables that determine which data to use from the previos set
 			bool tmp;
-			fernDataFile >> tmp;
+			fernDataFile >> tmp; //this saves the first variable in the txt file then iterates to the next variable and does the same
 			selectedFerns[i] = tmp;
 			if (tmp == 1)
 			{
-				count++;
+				count++; //if one of the ferns are selected add to the count
 			}
 		}
 
+		//runs 20 times (the number of ferns generated currently)
 		for (int i = 0; i < selectedFerns.size(); i++)
 		{
 			double temp;
@@ -176,6 +203,9 @@ public:
 			{
 				for (int it = 0; it < avgValues.size(); it++)
 				{
+					//this goes though each variable then adds it to the according part of the vector
+					//at the end of the loop avgValues will contain the sum of each variable of the selected previous generation
+					//this will need to be divided at the end to get the true average variable value
 					fernDataFile >> temp;
 					avgValues[it] += temp;
 				}
@@ -184,19 +214,26 @@ public:
 			{
 				for (int it = 0; it < avgValues.size(); it++)
 				{
+					//this is done as the >> operator not only saves the data but also iterates to the next variable
+					//the data is "saved" then immediately discarded then the program iterates to the next piece of data
+					//this is done the same number of times as there are data in every set of ferns so it skips to the next fern
 					fernDataFile >> temp;
 				}
 			}
 		}
 
+		//if count is bigger than 0, at least 1 fern was selected from the previous generation
 		if (count > 0)
 		{
+			userGuided = true; //this is a bool used to determine whether the draw() should use the default fern generation
 			for (int i = 0; i < avgValues.size(); i++)
 			{
+				//divide each variable by the count to get the average
 				avgValues[i] = avgValues[i] / ((double)count);
 			}
 		}
 
+		//assign the vector values to the corresponding  member variables
 		AvgLeftLeafCurve = avgValues[0];
 		AvgRightLeafCurve = avgValues[1];
 		AvgLeftLeafSize = avgValues[2];
@@ -216,6 +253,13 @@ public:
 
 private:
 
+	myBitmap bmp;
+
+	bool userGuided = false;
+
+	//the following are the variables used to make the original Barnsley Fern
+	//these are used as the benchmark to deviate from if no other data is given to the program
+	//The Names have been chosen to give a summary of the effect that they have on the final image, however this is inexact
 	const float CONST_LeftLeafCurve = 0.2f;
 	const float CONST_RightLeafCurve = .15f;
 	const float CONST_LeftLeafSize = .26f;
@@ -232,6 +276,8 @@ private:
 	const float CONST_Aggressiveness = .85f;
 	const float CONST_Size = 1.6f;
 
+	//the following variables are the final values used to create the images
+	//this is also the data that is saved to the txt file (in the order they appear here)
 	float LeftLeafCurve;
 	float RightLeafCurve;
 	float LeftLeafSize;
@@ -248,6 +294,7 @@ private:
 	float Aggressiveness;
 	float Size;
 
+	//the following variables are used to store the average of the previous generation's selections
 	float AvgLeftLeafCurve = 0;
 	float AvgRightLeafCurve = 0;
 	float AvgLeftLeafSize = 0;
@@ -266,23 +313,29 @@ private:
 
 	void randomizeVariables()
 	{
-			LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
-			RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
-			LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
-			RightLeafSize = CONST_RightLeafSize + (((rand() % 24) - 12) / 100.0f);
-			LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 24) - 12) / 100.0f);
-			RightLeafThickness = CONST_RightLeafThickness + (((rand() % 24) - 12) / 100.0f);
-			LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 24) - 12) / 100.0f);
-			RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 24) - 12) / 100.0f);
-			LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
-			RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
-			Spikiness = CONST_Spikiness + (((rand() % 20) - 10) / 100.0f);
-			Curviness = CONST_Curviness + (((rand() % 20) - 10) / 100.0f);
-			Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
-			Aggressiveness = CONST_Aggressiveness;
-			Size = CONST_Size;
+		//this randomizes the variables within a certain range of the Barnsley Fern
+		//The random values have been chosen such that the images will deviate enough from the norm
+		//  yet still look mostly plant like
+		LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
+		RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
+		LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
+		RightLeafSize = CONST_RightLeafSize + (((rand() % 24) - 12) / 100.0f);
+		LeftLeafThinness = CONST_LeftLeafThinness + (((rand() % 24) - 12) / 100.0f);
+		RightLeafThickness = CONST_RightLeafThickness + (((rand() % 24) - 12) / 100.0f);
+		LeftAngleWithStem = CONST_LeftAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+		RightAngleWithStem = CONST_RightAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+		LeftLeafSpawnPosition = CONST_LeftLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+		RightLeafSpawnPosition = CONST_RightLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+		Spikiness = CONST_Spikiness + (((rand() % 20) - 10) / 100.0f);
+		Curviness = CONST_Curviness + (((rand() % 20) - 10) / 100.0f);
+		Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
+		Aggressiveness = CONST_Aggressiveness;
+		Size = CONST_Size;
 	}
 
+	//The following function randomises the variables based on the selected data from the previous generation
+	//the int passed chooses how divergant the variables will be from the base data 
+	//(lower is more similar, higher is more divergant)
 	void randomizeWeightedVariables(int distribution)
 	{
 		if (distribution == 1)
@@ -341,6 +394,7 @@ private:
 		}
 	}
 
+	//this generates the average fern of the chosen ferns from the previous generation
 	void getAverageFern()
 	{
 		LeftLeafCurve = AvgLeftLeafCurve;
@@ -383,12 +437,18 @@ private:
 	float rnd() {
 		return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	}
-	myBitmap bmp;
 };
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned>(time(0)));
+
+	//we create 1 fern, then re-generate it 20 times and save the image/data after each pass
 	fern f; 
+	std::cout << "Generating Images, Please Wait..." << std::endl;
+
+	//the next line calls the function that checks if the fern generation should be weighted (and then does the weighting)
 	f.getPreGen();
+
+	//draw() calls the function that generates all the images.
 	f.draw(); 
 	return 0;
 }
