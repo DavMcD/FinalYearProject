@@ -103,7 +103,35 @@ public:
 		for (int i = 0; i < 20; i++)
 		{
 			srand(time(NULL));
-			randomizeVariables();
+
+			if (AvgLeftLeafCurve == 0)
+			{
+				randomizeVariables();
+			}
+			else
+			{
+				if (i == 0)
+				{
+					getAverageFern();
+				}
+				else if (i < 6)
+				{
+					randomizeWeightedVariables(1);
+				}
+				else if (i < 11)
+				{
+					randomizeWeightedVariables(2);
+				}
+				else if (i < 16)
+				{
+					randomizeWeightedVariables(3);
+				}
+				else
+				{
+					randomizeVariables();
+				}
+			}
+
 			bmp.create(BMP_SIZE, BMP_SIZE);
 			float x = 0, y = 0; HDC dc = bmp.getDC();
 			int hs = BMP_SIZE >> 1;
@@ -238,8 +266,6 @@ private:
 
 	void randomizeVariables()
 	{
-		if (AvgLeftLeafCurve == 0)
-		{
 			LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
 			RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
 			LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
@@ -255,8 +281,29 @@ private:
 			Gravity = CONST_Gravity + (((rand() % 10) - 5) / 100.0f);
 			Aggressiveness = CONST_Aggressiveness;
 			Size = CONST_Size;
+	}
+
+	void randomizeWeightedVariables(int distribution)
+	{
+		if (distribution == 1)
+		{
+			LeftLeafCurve = AvgLeftLeafCurve + (((rand() % 8) - 4) / 100.0f);
+			RightLeafCurve = AvgRightLeafCurve + (((rand() % 8) - 4) / 100.0f);
+			LeftLeafSize = AvgLeftLeafSize + (((rand() % 8) - 4) / 100.0f);
+			RightLeafSize = AvgRightLeafSize + (((rand() % 8) - 4) / 100.0f);
+			LeftLeafThinness = AvgLeftLeafThinness + (((rand() % 8) - 4) / 100.0f);
+			RightLeafThickness = AvgRightLeafThickness + (((rand() % 8) - 4) / 100.0f);
+			LeftAngleWithStem = AvgLeftAngleWithStem + (((rand() % 8) - 4) / 100.0f);
+			RightAngleWithStem = AvgRightAngleWithStem + (((rand() % 8) - 4) / 100.0f);
+			LeftLeafSpawnPosition = AvgLeftLeafSpawnPosition + (((rand() % 8) - 4) / 100.0f);
+			RightLeafSpawnPosition = AvgRightLeafSpawnPosition + (((rand() % 8) - 4) / 100.0f);
+			Spikiness = AvgSpikiness + (((rand() % 6) - 3) / 100.0f);
+			Curviness = AvgCurviness + (((rand() % 6) - 3) / 100.0f);
+			Gravity = AvgGravity + (((rand() % 4) - 2) / 100.0f);
+			Aggressiveness = AvgAggressiveness;
+			Size = AvgSize;
 		}
-		else
+		else if (distribution == 2)
 		{
 			LeftLeafCurve = AvgLeftLeafCurve + (((rand() % 12) - 6) / 100.0f);
 			RightLeafCurve = AvgRightLeafCurve + (((rand() % 12) - 6) / 100.0f);
@@ -274,6 +321,43 @@ private:
 			Aggressiveness = AvgAggressiveness;
 			Size = AvgSize;
 		}
+		else if (distribution == 3)
+		{
+			LeftLeafCurve = AvgLeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
+			RightLeafCurve = AvgRightLeafCurve + (((rand() % 24) - 12) / 100.0f);
+			LeftLeafSize = AvgLeftLeafSize + (((rand() % 24) - 12) / 100.0f);
+			RightLeafSize = AvgRightLeafSize + (((rand() % 24) - 12) / 100.0f);
+			LeftLeafThinness = AvgLeftLeafThinness + (((rand() % 24) - 12) / 100.0f);
+			RightLeafThickness = AvgRightLeafThickness + (((rand() % 24) - 12) / 100.0f);
+			LeftAngleWithStem = AvgLeftAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+			RightAngleWithStem = AvgRightAngleWithStem + (((rand() % 24) - 12) / 100.0f);
+			LeftLeafSpawnPosition = AvgLeftLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+			RightLeafSpawnPosition = AvgRightLeafSpawnPosition + (((rand() % 24) - 12) / 100.0f);
+			Spikiness = AvgSpikiness + (((rand() % 20) - 10) / 100.0f);
+			Curviness = AvgCurviness + (((rand() % 20) - 10) / 100.0f);
+			Gravity = AvgGravity + (((rand() % 10) - 5) / 100.0f);
+			Aggressiveness = AvgAggressiveness;
+			Size = AvgSize;
+		}
+	}
+
+	void getAverageFern()
+	{
+		LeftLeafCurve = AvgLeftLeafCurve;
+		RightLeafCurve = AvgRightLeafCurve;
+		LeftLeafSize = AvgLeftLeafSize;
+		RightLeafSize = AvgRightLeafSize;
+		LeftLeafThinness = AvgLeftLeafThinness;
+		RightLeafThickness = AvgRightLeafThickness;
+		LeftAngleWithStem = AvgLeftAngleWithStem;
+		RightAngleWithStem = AvgRightAngleWithStem;
+		LeftLeafSpawnPosition = AvgLeftLeafSpawnPosition;
+		RightLeafSpawnPosition = AvgRightLeafSpawnPosition;
+		Spikiness = AvgSpikiness;
+		Curviness = AvgCurviness;
+		Gravity = AvgGravity;
+		Aggressiveness = AvgAggressiveness;
+		Size = AvgSize;
 	}
 
 
