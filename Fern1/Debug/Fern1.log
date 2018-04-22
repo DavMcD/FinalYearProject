@@ -1,24 +1,2 @@
-﻿  Source.cpp
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(105): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(161): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(172): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(177): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(185): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(194): warning C4018: '<': signed/unsigned mismatch
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(200): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(201): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(202): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(203): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(204): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(205): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(206): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(207): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(208): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(209): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(210): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(211): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(212): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(213): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\gameuser\documents\visual studio 2017\projects\fern1\fern1\source.cpp(214): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Fern1.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Fern1\Debug\Fern1.exe
-  Fern1.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Fern1\Debug\Fern1.pdb (Partial PDB)
+﻿  Fern1.vcxproj -> C:\Users\David\Documents\FYP Console\FinalYearProject\Debug\Fern1.exe
+  Fern1.vcxproj -> C:\Users\David\Documents\FYP Console\FinalYearProject\Debug\Fern1.pdb (Partial PDB)
