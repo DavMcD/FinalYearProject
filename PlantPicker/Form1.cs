@@ -383,6 +383,7 @@ namespace PlantPicker
                 btn.Text = "";
             }
             button21.Text = "Generate!"; //except the text on this button
+            button22.Text = "Save As...";
             lines[0] = selectLine; //replace the first line with the new string (of selected images)
             File.WriteAllLines(@"FernData.txt", lines); //write all the data back to the file
 
@@ -392,6 +393,11 @@ namespace PlantPicker
 
             //reload the images on the buttons so you can start again
             loadFerns();
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

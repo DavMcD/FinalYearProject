@@ -16,3 +16,13 @@ C:\Users\David\Documents\FYP With Applet\PlantPicker\PlantPicker\obj\Debug\Plant
 C:\Users\David\Documents\FYP With Applet\PlantPicker\PlantPicker\obj\Debug\PlantPicker.csproj.CoreCompileInputs.cache
 C:\Users\David\Documents\FYP With Applet\PlantPicker\PlantPicker\obj\Debug\PlantPicker.exe
 C:\Users\David\Documents\FYP With Applet\PlantPicker\PlantPicker\obj\Debug\PlantPicker.pdb
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\bin\Debug\PlantPicker.exe.config
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\bin\Debug\PlantPicker.exe
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\bin\Debug\PlantPicker.pdb
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.csprojResolveAssemblyReference.cache
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.Form1.resources
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.Properties.Resources.resources
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.csproj.GenerateResource.Cache
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.csproj.CoreCompileInputs.cache
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.exe
+C:\Users\David\Desktop\FYP UI\FinalYearProject\PlantPicker\obj\Debug\PlantPicker.pdb
