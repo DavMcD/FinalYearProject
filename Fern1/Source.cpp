@@ -4,96 +4,111 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include "Bitmap.h"
 
 const int BMP_SIZE = 600, ITERATIONS = static_cast<int>(15e5);
+const float PI = 3.1415926536f;
 
-class myBitmap {
+
+class vector2
+{
 public:
-	myBitmap() : pen(NULL), brush(NULL), clr(0), wid(1) {}
-	~myBitmap() {
-		DeleteObject(pen); DeleteObject(brush);
-		DeleteDC(hdc); DeleteObject(bmp);
+	vector2() { x = y = 0; }
+	vector2(int a, int b) { x = a; y = b; }
+	void set(int a, int b) { x = a; y = b; }
+	void rotate(float angle_r)
+	{
+		float _x = static_cast<float>(x),
+			_y = static_cast<float>(y),
+			s = sinf(angle_r),
+			c = cosf(angle_r),
+			a = _x * c - _y * s,
+			b = _x * s + _y * c;
+
+		x = static_cast<int>(a);
+		y = static_cast<int>(b);
 	}
-	bool create(int w, int h) {
-		BITMAPINFO bi;
-		ZeroMemory(&bi, sizeof(bi));
-		bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
-		bi.bmiHeader.biBitCount = sizeof(DWORD) * 8;
-		bi.bmiHeader.biCompression = BI_RGB;
-		bi.bmiHeader.biPlanes = 1;
-		bi.bmiHeader.biWidth = w;
-		bi.bmiHeader.biHeight = -h;
-		HDC dc = GetDC(GetConsoleWindow());
-		bmp = CreateDIBSection(dc, &bi, DIB_RGB_COLORS, &pBits, NULL, 0);
-		if (!bmp) return false;
-		hdc = CreateCompatibleDC(dc);
-		SelectObject(hdc, bmp);
-		ReleaseDC(GetConsoleWindow(), dc);
-		width = w; height = h;
-		return true;
+
+	int x, y;
+};
+
+class fractalTree
+{
+public:
+	fractalTree() { _ang = DegToRadian(24.0f); }
+	float DegToRadian(float degree) { return degree * (PI / 180.0f); }
+
+	void create(Bitmap* bmp)
+	{
+		_bmp = bmp;
+		float line_len = 130.0f;
+
+		vector2 sp(_bmp->getWidth() / 2, _bmp->getHeight() - 1);
+		MoveToEx(_bmp->getDC(), sp.x, sp.y, NULL);
+		sp.y -= static_cast<int>(line_len);
+		LineTo(_bmp->getDC(), sp.x, sp.y);
+
+		drawRL(&sp, line_len, 0, true);
+		drawRL(&sp, line_len, 0, false);
 	}
-	void clear(BYTE clr = 0) {
-		memset(pBits, clr, width * height * sizeof(DWORD));
+	void draw()
+	{
+		std::ofstream fernDataFile("TreeData.txt");
+
+
+		//this essentially "deselects" the previous generation by resetting the bools that determine which values will be chosen
+		for (int i = 0; i < 20; i++)
+		{
+			fernDataFile << "0 ";
+		}
+		fernDataFile << std::endl;
+
+		bmp.create(640, 512);
+		bmp.setPenColor(RGB(255, 255, 0));
+
+		for (int i = 0; i < 20; i++)
+		{
+
+			create(&bmp);
+			bmp.saveBitmap("./tree" + std::to_string(i) + ".bmp");
+
+			//TODO write data to file
+			std::cout << std::to_string((i * 5)) << "% Complete" << std::endl;
+		}
 	}
-	void setBrushColor(DWORD bClr) {
-		if (brush) DeleteObject(brush);
-		brush = CreateSolidBrush(bClr);
-		SelectObject(hdc, brush);
-	}
-	void setPenColor(DWORD c) {
-		clr = c; createPen();
-	}
-	void setPenWidth(int w) {
-		wid = w; createPen();
-	}
-	void saveBitmap(std::string path) {
-		BITMAPFILEHEADER fileheader;
-		BITMAPINFO       infoheader;
-		BITMAP           bitmap;
-		DWORD            wb;
-		GetObject(bmp, sizeof(bitmap), &bitmap);
-		DWORD* dwpBits = new DWORD[bitmap.bmWidth * bitmap.bmHeight];
-		ZeroMemory(dwpBits, bitmap.bmWidth * bitmap.bmHeight * sizeof(DWORD));
-		ZeroMemory(&infoheader, sizeof(BITMAPINFO));
-		ZeroMemory(&fileheader, sizeof(BITMAPFILEHEADER));
-		infoheader.bmiHeader.biBitCount = sizeof(DWORD) * 8;
-		infoheader.bmiHeader.biCompression = BI_RGB;
-		infoheader.bmiHeader.biPlanes = 1;
-		infoheader.bmiHeader.biSize = sizeof(infoheader.bmiHeader);
-		infoheader.bmiHeader.biHeight = bitmap.bmHeight;
-		infoheader.bmiHeader.biWidth = bitmap.bmWidth;
-		infoheader.bmiHeader.biSizeImage = bitmap.bmWidth * bitmap.bmHeight * sizeof(DWORD);
-		fileheader.bfType = 0x4D42;
-		fileheader.bfOffBits = sizeof(infoheader.bmiHeader) + sizeof(BITMAPFILEHEADER);
-		fileheader.bfSize = fileheader.bfOffBits + infoheader.bmiHeader.biSizeImage;
-		GetDIBits(hdc, bmp, 0, height, (LPVOID)dwpBits, &infoheader, DIB_RGB_COLORS);
-		HANDLE file = CreateFile(path.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS,
-			FILE_ATTRIBUTE_NORMAL, NULL);
-		WriteFile(file, &fileheader, sizeof(BITMAPFILEHEADER), &wb, NULL);
-		WriteFile(file, &infoheader.bmiHeader, sizeof(infoheader.bmiHeader), &wb, NULL);
-		WriteFile(file, dwpBits, bitmap.bmWidth * bitmap.bmHeight * 4, &wb, NULL);
-		CloseHandle(file);
-		delete[] dwpBits;
-	}
-	HDC getDC() const { return hdc; }
-	int getWidth() const { return width; }
-	int getHeight() const { return height; }
+
 private:
-	void createPen() {
-		if (pen) DeleteObject(pen);
-		pen = CreatePen(PS_SOLID, wid, clr);
-		SelectObject(hdc, pen);
+	Bitmap bmp;
+	void drawRL(vector2* sp, float line_len, float a, bool rg)
+	{
+		line_len *= .75f;
+		if (line_len < 2.0f) return;
+
+		MoveToEx(_bmp->getDC(), sp->x, sp->y, NULL);
+		vector2 r(0, static_cast<int>(line_len));
+
+		if (rg) a -= _ang;
+		else a += _ang;
+
+		r.rotate(a);
+		r.x += sp->x; r.y = sp->y - r.y;
+
+		LineTo(_bmp->getDC(), r.x, r.y);
+
+		drawRL(&r, line_len, a, true);
+		drawRL(&r, line_len, a, false);
 	}
-	HBITMAP bmp; HDC    hdc;
-	HPEN    pen; HBRUSH brush;
-	void    *pBits; int    width, height, wid;
-	DWORD    clr;
+
+	Bitmap* _bmp;
+	float     _ang;
 };
 class fern {
 public:
 	void draw() 
 	{
 		std::ofstream fernDataFile("FernData.txt");
+
+		fernDataFile << "0 " << std::endl;
 
 		//this essentially "deselects" the previous generation by resetting the bools that determine which values will be chosen
 		for (int i = 0; i < 20; i++)
@@ -180,6 +195,8 @@ public:
 		//vector of the values from the previous generation (in case they need to be saved)
 		std::vector<double> avgValues(15, 0);
 		std::fstream fernDataFile("FernData.txt"); //load in the data file
+		int temp = 0;
+		fernDataFile >> temp;
 
 		//runs 20 times (the number of ferns generated currently)
 		for (int i = 0; i < selectedFerns.size(); i++)
@@ -253,7 +270,7 @@ public:
 
 private:
 
-	myBitmap bmp;
+	Bitmap bmp;
 
 	bool userGuided = false;
 
@@ -414,9 +431,10 @@ private:
 		Size = AvgSize;
 	}
 
-
+	//must comment this 
 	void getXY(float& x, float& y) 
 	{
+		//fern generation
 		float g, xl, yl;
 		g = rnd();
 		if (g < .01f) { xl = 0; yl = .16f * y; }
@@ -441,14 +459,26 @@ private:
 int main(int argc, char* argv[]) {
 	srand(static_cast<unsigned>(time(0)));
 
-	//we create 1 fern, then re-generate it 20 times and save the image/data after each pass
-	fern f; 
-	std::cout << "Generating Images, Please Wait..." << std::endl;
+	std::fstream fernDataFile("FernData.txt"); //load in the data file
+	int isFern = 0;
+	fernDataFile >> isFern;
 
-	//the next line calls the function that checks if the fern generation should be weighted (and then does the weighting)
-	f.getPreGen();
+	if (isFern == 0) {
+		//we create 1 fern, then re-generate it 20 times and save the image/data after each pass
+		fern f;
+		std::cout << "Generating Ferns, Please Wait..." << std::endl;
 
-	//draw() calls the function that generates all the images.
-	f.draw(); 
+		//the next line calls the function that checks if the fern generation should be weighted (and then does the weighting)
+		f.getPreGen();
+
+		//draw() calls the function that generates all the images.
+		f.draw();
+	}
+	else
+	{
+		std::cout << "Generating Trees, Please Wait..." << std::endl;
+		fractalTree tree;
+		tree.draw();
+	}
 	return 0;
 }

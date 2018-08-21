@@ -1,2 +1,24 @@
-﻿  Fern1.vcxproj -> C:\Users\David\Documents\FYP Console\FinalYearProject\Debug\Fern1.exe
-  Fern1.vcxproj -> C:\Users\David\Documents\FYP Console\FinalYearProject\Debug\Fern1.pdb (Partial PDB)
+﻿  Source.cpp
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(97): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(176): warning C4018: '<': signed/unsigned mismatch
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(190): warning C4018: '<': signed/unsigned mismatch
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(195): warning C4018: '<': signed/unsigned mismatch
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(206): warning C4018: '<': signed/unsigned mismatch
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(220): warning C4018: '<': signed/unsigned mismatch
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(228): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(229): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(230): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(231): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(232): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(233): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(234): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(235): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(236): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(237): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(238): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(239): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(240): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(241): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\david\desktop\fyp console\finalyearproject\fern1\source.cpp(242): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Fern1.vcxproj -> C:\Users\David\Desktop\FYP Console\FinalYearProject\Debug\Fern1.exe
+  Fern1.vcxproj -> C:\Users\David\Desktop\FYP Console\FinalYearProject\Debug\Fern1.pdb (Partial PDB)
