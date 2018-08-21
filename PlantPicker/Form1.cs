@@ -29,6 +29,11 @@ namespace PlantPicker
 
         private void loadFerns()
         {
+            //always start with ferns selected
+            string[] lines = File.ReadAllLines(@"FernData.txt");
+            lines[0] = 0.ToString() + " ";
+            File.WriteAllLines(@"FernData.txt", lines);
+
             //images have to be loaded into a temp file then re assigned or else the app will stop
             //  the command line program from changing the image files as they are still in use
             Image[] buttonImages = new Image[20];
@@ -41,6 +46,51 @@ namespace PlantPicker
                     //this makes no sense and took me too long to figure out
                     //the "stretch" property that fits the image to the size also does not work
                     buttonImages[i] = new Bitmap(bmpTemp, new Size(100,100));
+                }
+            }
+
+            //then assign the temp image files to the actual image property of the buttons
+            button1.Image = buttonImages[0];
+            button2.Image = buttonImages[1];
+            button3.Image = buttonImages[2];
+            button4.Image = buttonImages[3];
+            button5.Image = buttonImages[4];
+            button6.Image = buttonImages[5];
+            button7.Image = buttonImages[6];
+            button8.Image = buttonImages[7];
+            button9.Image = buttonImages[8];
+            button10.Image = buttonImages[9];
+            button11.Image = buttonImages[10];
+            button12.Image = buttonImages[11];
+            button13.Image = buttonImages[12];
+            button14.Image = buttonImages[13];
+            button15.Image = buttonImages[14];
+            button16.Image = buttonImages[15];
+            button17.Image = buttonImages[16];
+            button18.Image = buttonImages[17];
+            button19.Image = buttonImages[18];
+            button20.Image = buttonImages[19];
+        }
+
+        private void loadTrees()
+        {
+            //always start with ferns selected
+            string[] lines = File.ReadAllLines(@"TreeData.txt");
+            lines[0] = 0.ToString() + " ";
+            File.WriteAllLines(@"TreeData.txt", lines);
+
+            //images have to be loaded into a temp file then re assigned or else the app will stop
+            //  the command line program from changing the image files as they are still in use
+            Image[] buttonImages = new Image[20];
+
+            for (int i = 0; i < buttonImages.Length; i++)
+            {
+                using (var bmpTemp = new Bitmap("tree" + i + ".bmp"))
+                {
+                    //the images need to be made to be half the size of the buttons to fit properly
+                    //this makes no sense and took me too long to figure out
+                    //the "stretch" property that fits the image to the size also does not work
+                    buttonImages[i] = new Bitmap(bmpTemp, new Size(100, 100));
                 }
             }
 
@@ -384,7 +434,7 @@ namespace PlantPicker
             }
             button21.Text = "Generate!"; //except the text on this button
             button22.Text = "Save As...";
-            lines[0] = selectLine; //replace the first line with the new string (of selected images)
+            lines[1] = selectLine; //replace the first line with the new string (of selected images)
             File.WriteAllLines(@"FernData.txt", lines); //write all the data back to the file
 
             //run the fern generating program and wait for it to complete
@@ -398,6 +448,27 @@ namespace PlantPicker
         private void button22_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                string[] lines = File.ReadAllLines(@"FernData.txt");
+                lines[0] = 0.ToString() + " ";
+                File.WriteAllLines(@"FernData.txt", lines);
+
+                loadFerns();
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            string[] lines = File.ReadAllLines(@"FernData.txt");
+            lines[0] = 1.ToString() + " ";
+            File.WriteAllLines(@"FernData.txt", lines);
+
+            loadTrees();
         }
     }
 }
