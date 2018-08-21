@@ -66,27 +66,33 @@ public:
 		bmp.create(640, 512);
 		bmp.setPenColor(RGB(255, 255, 0));
 
+		
 		for (int i = 0; i < 20; i++)
 		{
 
 			create(&bmp);
 			bmp.saveBitmap("./tree" + std::to_string(i) + ".bmp");
-
+			bmp.clear();
 			//TODO write data to file
 			std::cout << std::to_string((i * 5)) << "% Complete" << std::endl;
 		}
+		BitBlt(GetDC(GetConsoleWindow()), 0, 20, 648, 512, bmp.getDC(), 0, 0, SRCCOPY);
+		system("PAUSE");
 	}
 
 private:
 	Bitmap bmp;
 	void drawRL(vector2* sp, float line_len, float a, bool rg)
 	{
-		line_len *= .75f;
+		float left_line = line_len;
+		line_len *= (0.75f - (std::rand() % 4) / 10.0f);
+		left_line *= 0.75f;
+
 		if (line_len < 2.0f) return;
 
 		MoveToEx(_bmp->getDC(), sp->x, sp->y, NULL);
 		vector2 r(0, static_cast<int>(line_len));
-
+	
 		if (rg) a -= _ang;
 		else a += _ang;
 
@@ -96,7 +102,7 @@ private:
 		LineTo(_bmp->getDC(), r.x, r.y);
 
 		drawRL(&r, line_len, a, true);
-		drawRL(&r, line_len, a, false);
+		drawRL(&r, left_line, a, false);
 	}
 
 	Bitmap* _bmp;

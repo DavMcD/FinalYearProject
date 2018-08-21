@@ -21,8 +21,8 @@ Source.cpp(266): warning C4244: '=': conversion from 'double' to 'float', possib
 Source.cpp(267): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 Source.cpp(268): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Generating code
-  1 of 328 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+  2 of 328 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    10 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Fern1.vcxproj -> C:\Users\David\Desktop\FYP Console\FinalYearProject\Release\Fern1.exe
