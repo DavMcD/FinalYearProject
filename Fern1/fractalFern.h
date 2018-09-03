@@ -21,8 +21,8 @@ private:
 
 #pragma region private vars
 	//the following are the variables used to make the original Barnsley Fern
-//these are used as the benchmark to deviate from if no other data is given to the program
-//The Names have been chosen to give a summary of the effect that they have on the final image, however this is inexact
+	//these are used as the benchmark to deviate from if no other data is given to the program
+	//The Names have been chosen to give a summary of the effect that they have on the final image, however this is inexact
 	const float CONST_LeftLeafCurve = 0.2f;
 	const float CONST_RightLeafCurve = .15f;
 	const float CONST_LeftLeafSize = .26f;

@@ -183,8 +183,8 @@ float fractalFern::rnd()
 void fractalFern::randomizeVariables()
 {
 	//this randomizes the variables within a certain range of the Barnsley Fern
-		//The random values have been chosen such that the images will deviate enough from the norm
-		//  yet still look mostly plant like
+	//The random values have been chosen such that the images will deviate enough from the norm
+	//  yet still look mostly plant like
 	LeftLeafCurve = CONST_LeftLeafCurve + (((rand() % 24) - 12) / 100.0f);
 	RightLeafCurve = CONST_RightLeafCurve + (((rand() % 24) - 12) / 100.0f);
 	LeftLeafSize = CONST_LeftLeafSize + (((rand() % 24) - 12) / 100.0f);
