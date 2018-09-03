@@ -1,5 +1,6 @@
 #pragma once
 #include "Bitmap.h"
+#include "Randomizer.h"
 #include <windows.h>
 #include <ctime>
 #include <string>
@@ -18,6 +19,8 @@ private:
 	float rnd();
 	Bitmap bmp;
 	bool userGuided = false;
+
+	Randomizer randFern;
 
 #pragma region private vars
 	//the following are the variables used to make the original Barnsley Fern
@@ -75,7 +78,7 @@ private:
 	float AvgSize = 0;
 #pragma endregion
 
-
+	void setWeightedVariables(std::vector<float>);
 	void randomizeVariables();
 	void randomizeWeightedVariables(int distribution);
 	void getAverageFern();

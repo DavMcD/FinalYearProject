@@ -114,6 +114,8 @@
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="fractalFern.cpp" />
     <ClCompile Include="fractalTree.cpp" />
+    <ClCompile Include="OBJCreator.cpp" />
+    <ClCompile Include="Randomizer.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="vector2Helper.cpp" />
   </ItemGroup>
@@ -121,6 +123,8 @@
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="fractalFern.h" />
     <ClInclude Include="fractalTree.h" />
+    <ClInclude Include="OBJCreator.h" />
+    <ClInclude Include="Randomizer.h" />
     <ClInclude Include="vector2Helper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

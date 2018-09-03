@@ -17,7 +17,10 @@ void fractalFern::getPreGen()
 
 	//vector of the values from the previous generation (in case they need to be saved)
 	std::vector<double> avgValues(15, 0);
+
+	std::vector<std::vector<float>> selectedData; //a list of sets of fern data to be passed to the number generator
 	std::fstream fernDataFile("FernData.txt"); //load in the data file
+
 	int temp = 0;
 	fernDataFile >> temp;
 
@@ -25,34 +28,40 @@ void fractalFern::getPreGen()
 	for (int i = 0; i < selectedFerns.size(); i++)
 	{
 		//save the first 20 variables into the vector of bools
-		//the first line (these 20 var) are the variables that determine which data to use from the previos set
+		//the first line (these 20 var) are the variables that determine which data to use from the previous set
 		bool tmp;
 		fernDataFile >> tmp; //this saves the first variable in the txt file then iterates to the next variable and does the same
 		selectedFerns[i] = tmp;
 		if (tmp == 1)
 		{
 			count++; //if one of the ferns are selected add to the count
+			selectedData.push_back(std::vector<float>(15, 0)); //add a vector of 0's of the appropriatesize to fit the data for every selected fern
 		}
 	}
 
+	//iterator for selected data vector
+	int selectDataIter = 0;
 	//runs 20 times (the number of ferns generated currently)
 	for (int i = 0; i < selectedFerns.size(); i++)
 	{
 		double temp;
 		if (selectedFerns[i])
 		{
-			for (int it = 0; it < avgValues.size(); it++)
+			//15 is the number of data types available
+			for (int it = 0; it < 15; it++)
 			{
 				//this goes though each variable then adds it to the according part of the vector
 				//at the end of the loop avgValues will contain the sum of each variable of the selected previous generation
 				//this will need to be divided at the end to get the true average variable value
 				fernDataFile >> temp;
-				avgValues[it] += temp;
+				selectedData[selectDataIter][it] = temp;
 			}
+			//after assigning all the values to the nested vector of values, go to the next vector
+			selectDataIter++;
 		}
 		else
 		{
-			for (int it = 0; it < avgValues.size(); it++)
+			for (int it = 0; it < 15; it++)
 			{
 				//this is done as the >> operator not only saves the data but also iterates to the next variable
 				//the data is "saved" then immediately discarded then the program iterates to the next piece of data
@@ -62,33 +71,38 @@ void fractalFern::getPreGen()
 		}
 	}
 
+
+
 	//if count is bigger than 0, at least 1 fern was selected from the previous generation
 	if (count > 0)
 	{
+		//initialise the ranomisation class and pass it the previous data
+		randFern.Init(selectedData);
+
 		userGuided = true; //this is a bool used to determine whether the draw() should use the default fern generation
-		for (int i = 0; i < avgValues.size(); i++)
-		{
-			//divide each variable by the count to get the average
-			avgValues[i] = avgValues[i] / ((double)count);
-		}
+		//for (int i = 0; i < avgValues.size(); i++)
+		//{
+		//	//divide each variable by the count to get the average
+		//	avgValues[i] = avgValues[i] / ((double)count);
+		//}
 	}
 
 	//assign the vector values to the corresponding  member variables
-	AvgLeftLeafCurve = avgValues[0];
-	AvgRightLeafCurve = avgValues[1];
-	AvgLeftLeafSize = avgValues[2];
-	AvgRightLeafSize = avgValues[3];
-	AvgLeftLeafThinness = avgValues[4];
-	AvgRightLeafThickness = avgValues[5];
-	AvgLeftAngleWithStem = avgValues[6];
-	AvgRightAngleWithStem = avgValues[7];
-	AvgLeftLeafSpawnPosition = avgValues[8];
-	AvgRightLeafSpawnPosition = avgValues[9];
-	AvgSpikiness = avgValues[10];
-	AvgCurviness = avgValues[11];
-	AvgGravity = avgValues[12];
-	AvgAggressiveness = avgValues[13];
-	AvgSize = avgValues[14];
+	//AvgLeftLeafCurve = avgValues[0];
+	//AvgRightLeafCurve = avgValues[1];
+	//AvgLeftLeafSize = avgValues[2];
+	//AvgRightLeafSize = avgValues[3];
+	//AvgLeftLeafThinness = avgValues[4];
+	//AvgRightLeafThickness = avgValues[5];
+	//AvgLeftAngleWithStem = avgValues[6];
+	//AvgRightAngleWithStem = avgValues[7];
+	//AvgLeftLeafSpawnPosition = avgValues[8];
+	//AvgRightLeafSpawnPosition = avgValues[9];
+	//AvgSpikiness = avgValues[10];
+	//AvgCurviness = avgValues[11];
+	//AvgGravity = avgValues[12];
+	//AvgAggressiveness = avgValues[13];
+	//AvgSize = avgValues[14];
 }
 
 
@@ -128,22 +142,25 @@ void fractalFern::render()
 			//the next 5 are based off the average with slight deviations
 			else if (i < 6)
 			{
-				randomizeWeightedVariables(1);
+				setWeightedVariables(randFern.GenerateVariables(25));
+				//randomizeWeightedVariables(1);
 			}
 			//the next 5 are based off the average with moderate deviations
 			else if (i < 11)
 			{
-				randomizeWeightedVariables(2);
+				setWeightedVariables(randFern.GenerateVariables(50));
+				//randomizeWeightedVariables(50);
 			}
 			//the next 5 are based off the average with large deviations
 			else if (i < 16)
 			{
-				randomizeWeightedVariables(3);
+				setWeightedVariables(randFern.GenerateVariables(75));
+				//randomizeWeightedVariables(3);
 			}
-			//the last 4 are completely random (to give the user more choice and to stop the data converging too hard)
 			else
 			{
-				randomizeVariables();
+				setWeightedVariables(randFern.GenerateVariables(100));
+				//randomizeVariables();
 			}
 		}
 
@@ -152,7 +169,8 @@ void fractalFern::render()
 		bmp.create(BMP_SIZE, BMP_SIZE);
 		float x = 0, y = 0; HDC dc = bmp.getDC();
 		int hs = BMP_SIZE >> 1;
-		for (int f = 0; f < ITERATIONS; f++) {
+		for (int f = 0; f < ITERATIONS; f++)
+		{
 			SetPixel(dc, hs + static_cast<int>(x * 55.f),
 				BMP_SIZE - 15 - static_cast<int>(y * 55.f),
 				RGB(static_cast<int>(rnd() * 80.f) + 20,
@@ -178,6 +196,26 @@ fractalFern::~fractalFern()
 float fractalFern::rnd()
 {
 	return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+}
+
+void fractalFern::setWeightedVariables(std::vector<float> newVars)
+{
+
+	LeftLeafCurve = newVars[0];
+	RightLeafCurve = newVars[1];
+	LeftLeafSize = newVars[2];
+	RightLeafSize = newVars[3];
+	LeftLeafThinness = newVars[4];
+	RightLeafThickness = newVars[5];
+	LeftAngleWithStem = newVars[6];
+	RightAngleWithStem = newVars[7];
+	LeftLeafSpawnPosition = newVars[8];
+	RightLeafSpawnPosition = newVars[9];
+	Spikiness = newVars[10];
+	Curviness = newVars[11];
+	Gravity = newVars[12];
+	Aggressiveness = CONST_Aggressiveness;
+	Size = CONST_Size;
 }
 
 void fractalFern::randomizeVariables()

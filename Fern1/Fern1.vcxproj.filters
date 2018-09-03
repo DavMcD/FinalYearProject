@@ -30,6 +30,12 @@
     <ClCompile Include="vector2Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Randomizer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJCreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmap.h">
@@ -42,6 +48,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vector2Helper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Randomizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OBJCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
