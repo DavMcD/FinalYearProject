@@ -1,28 +1,9 @@
-﻿  Bitmap.cpp
-  fractalFern.cpp
-fractalFern.cpp(28): warning C4018: '<': signed/unsigned mismatch
-fractalFern.cpp(45): warning C4018: '<': signed/unsigned mismatch
-fractalFern.cpp(57): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-fractalFern.cpp(125): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  fractalTree.cpp
-fractalTree.cpp(21): warning C4018: '<': signed/unsigned mismatch
-fractalTree.cpp(35): warning C4018: '<': signed/unsigned mismatch
-fractalTree.cpp(46): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  Randomizer.cpp
-Randomizer.cpp(20): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(50): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(67): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(91): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(94): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(99): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(108): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(110): warning C4018: '<': signed/unsigned mismatch
-Randomizer.cpp(116): warning C4018: '<': signed/unsigned mismatch
+﻿  OBJCreator.cpp
+OBJCreator.cpp(32): warning C4129: '#': unrecognized character escape sequence
   Source.cpp
-  vector2Helper.cpp
   Generating code
-  529 of 537 functions (98.5%) were compiled, the rest were copied from previous compilation.
-    232 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  69 of 557 functions (12.4%) were compiled, the rest were copied from previous compilation.
+    21 functions were new in current compilation
+    40 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Fern1.vcxproj -> C:\Users\David\Desktop\New folder\FinalYearProject\Release\Fern1.exe

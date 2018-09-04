@@ -12,6 +12,7 @@
 
 
 const float PI = 3.1415926536f;
+OBJCreator * creator = new OBJCreator();
 
 
 
